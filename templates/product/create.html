@@ -1,0 +1,29 @@
+{% extends 'main.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div class="content">
+        <div class="page-header">
+            <div class="page-title">
+                <h3 class="">
+                    {% if form.instance.pk %}
+                        Update
+                    {% else %}
+                        Add
+                    {% endif %} Product
+                </h3>
+            </div>
+        </div>
+        <form action="" method="post" enctype="multipart/form-data">
+            <div>
+                {% include 'includes/form.html' %}
+
+                {% include 'product/image_formset.html' %}
+
+                {% include 'product/vendor_formset.html' %}
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+
+        </form>
+    </div>
+{% endblock %}

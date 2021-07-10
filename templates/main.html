@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assignment</title>
+    {#    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css"#}
+    {#          integrity="sha512-Dop/vW3iOtayerlYAqCgkVr2aTr2ErwwTYOvRFUpzl2VhCMJyjQF0Q9TjUXIo6JhuM/3i0vVEt2e/7QQmnHQqw=="#}
+    {#          crossorigin="anonymous" referrerpolicy="no-referrer"/>#}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
+          integrity="sha512-P5MgMn1jBN01asBgU0z60Qk4QxiXo86+wlFahKrsQf37c9cro517WzVSPPV1tDKzhku2iJ2FVgL67wG03SGnNA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    {#    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css" integrity="sha512-usVBAd66/NpVNfBge19gws2j6JZinnca12rAe2l+d+QkLU9fiG02O1X8Q6hepIpr/EYKZvKx/I9WsnujJuOmBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />#}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+          integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.formset/1.2.2/jquery.formset.js"></script>
+    {#    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>#}
+    {% block css %}{% endblock %}
+
+    <style>
+        #div_id_name, #div_id_location {
+            padding: 3rem !important;
+            border: 1px solid #dee2e6 !important;
+        }
+
+        #div_id_name label,
+        #div_id_location label {
+            width: 20% !important;
+        }
+
+        #div_id_name .controls,#div_id_location .controls {
+            width: 80% !important;
+            float: right;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <nav class="navbar navbar-default mt-2">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Assignment</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'location_list' %}">Location</a></li>
+                <li><a href="{% url 'product_list' %}">Product</a></li>
+                <li><a href="{% url 'vendor_list' %}">Vendor</a></li>
+{#                <li><a href="#">Vendor Product</a></li>#}
+            </ul>
+        </div>
+    </nav>
+    {% block content %}{% endblock %}
+</div>
+
+{% block js %}{% endblock %}
+</body>
+</html>

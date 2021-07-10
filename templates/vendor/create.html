@@ -1,0 +1,22 @@
+{% extends 'main.html' %}
+{% block content %}
+    <div class="content">
+        <div class="page-header">
+            <div class="page-title">
+                <h3 class="">
+                    {% if form.instance.pk %}
+                        Update
+                    {% else %}
+                        Add
+                    {% endif %} Vendor
+                </h3>
+            </div>
+        </div>
+        <form action="" method="post" enctype="multipart/form-data">
+            <div>
+                {% include 'includes/form.html' %}
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

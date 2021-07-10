@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css"
+          integrity="sha512-usVBAd66/NpVNfBge19gws2j6JZinnca12rAe2l+d+QkLU9fiG02O1X8Q6hepIpr/EYKZvKx/I9WsnujJuOmBA=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+</head>
+<body>
+
+<div class="container mt-4 mb-4">
+    <div class="pull-left" style="min-width: 175px;">
+        <div class="sort-label">Sort:</div>
+        <select name="location" id="Location" class="form-container">
+            <option value="">Dhaka</option>
+        </select>
+
+    </div>
+    <div class="row g-2" id="product_container">
+
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.bundle.min.js"
+        integrity="sha512-72WD92hLs7T5FAXn3vkNZflWG6pglUDDpm87TeQmfSg8KnrymL2G30R7as4FmTwhgu9H7eSzDCX3mjitSecKnw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+        integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+    var currency = '৳ ';
+    $(function () {
+        get_location();
+        $('html').on('change', '#Location', function () {
+            show_product_cards();
+        })
+    })
+    let show_product_cards = function () {
+        let location = $('#Location').val();
+        let data = {vendor__location: location}
+        $('#product_container').html("");
+        axios.get("/client/api/v1/product/", {
+            params: data
+        }).then(function (response) {
+            console.log(response.data)
+            response.data.forEach(function (item) {
+                let ProductTemplate = $($('#product_template').html());
+                ProductTemplate.find('.product_title').text(item.product_name);
+                ProductTemplate.find('.price').text(currency+item.price);
+                console.log(item.product_images.length,item.product_images)
+                if (item.product_images.length){
+                    ProductTemplate.find('.product_image').attr('src',item.product_images[0].image);
+                    if (item.product_images.length > 1){
+                        item.product_images.forEach(function (image){
+                            ProductTemplate.find('.product_thumbs').append(`<div class="col border"><img src="${image.image}" style="width: 100%;"></div>`)
+                        })
+                    }
+                }
+                $('#product_container').append(ProductTemplate);
+            })
+
+        })
+    }
+
+    let get_location = function () {
+        axios.get("/client/api/v1/location/").then(function (response) {
+            $('#Location').html('')
+            response.data.forEach(function (item) {
+                $('#Location').append(`<option value="${item.id}">${item.name}</option>`)
+            });
+            show_product_cards();
+        })
+    }
+
+
+</script>
+<script type="text/html" id="product_template">
+    <div class="col-md-6">
+        <div class="product-card d-flex flex-row align-items-center row p-5 border m-5">
+            <h6 class="mb-1"><span class="product_title"></span> - <span class="price text-success"></span></h6>
+
+            <div class="text-center co-12">
+                <img class="product_image" src="https://i.imgur.com/OCd0AVN.png" style="width: 100%;">
+                <div class="product_thumbs row"></div>
+            </div>
+            <div class="">
+                <div class="buttons mt-3">
+                    <button class="btn btn-outline-danger btn-sm wishlist">Add to wishlist</button>
+                    <button class="btn btn-success btn-sm">Add to quote</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+</body>
+</html>
